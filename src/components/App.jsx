@@ -1,16 +1,18 @@
+import MyPhonebook from './Phonebook/Phonebook.jsx';
 export const App = () => {
   return (
     <div
       style={{
-        height: '100vh',
+        // height: '100vh',
         display: 'flex',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
+        fontSize: 16,
+        color: '#010101',
       }}
     >
-      React homework template
+      {/* React homework template */}
+      <MyPhonebook />
     </div>
   );
 };
