@@ -1,3 +1,4 @@
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary.jsx';
 import MyPhonebook from './Phonebook/Phonebook.jsx';
 export const App = () => {
   return (
@@ -12,7 +13,9 @@ export const App = () => {
       }}
     >
       {/* React homework template */}
-      <MyPhonebook />
+      <ErrorBoundary>
+        <MyPhonebook />
+      </ErrorBoundary>
     </div>
   );
 };

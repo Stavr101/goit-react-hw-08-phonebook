@@ -10,7 +10,11 @@ export default class MyPhonebook extends Component {
     filter: '',
   };
   componentDidMount() {
-    console.log('componentDidMount ');
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    console.log('contacts', contacts);
+    if (contacts?.length) {
+      this.setState({ contacts });
+    }
   }
   componentDidUpdate(prevProps, prevState) {
     const { contacts } = this.state;
@@ -18,6 +22,10 @@ export default class MyPhonebook extends Component {
       localStorage.setItem('contacts', JSON.stringify(contacts));
     }
   }
+
+  // componentWillUnmount() {
+  //   localStorage.removeItem('contacts');
+  // }
 
   addContact = contact => {
     if (this.isDublicate(contact)) {
