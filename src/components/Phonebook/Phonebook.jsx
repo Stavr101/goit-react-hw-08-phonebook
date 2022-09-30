@@ -9,6 +9,15 @@ export default class MyPhonebook extends Component {
     contacts: [],
     filter: '',
   };
+  componentDidMount() {
+    console.log('componentDidMount ');
+  }
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
 
   addContact = contact => {
     if (this.isDublicate(contact)) {
