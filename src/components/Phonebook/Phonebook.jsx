@@ -11,7 +11,7 @@ export default class MyPhonebook extends Component {
   };
   componentDidMount() {
     const contacts = JSON.parse(localStorage.getItem('contacts'));
-    console.log('contacts', contacts);
+    // console.log('contacts', contacts);
     if (contacts?.length) {
       this.setState({ contacts });
     }
