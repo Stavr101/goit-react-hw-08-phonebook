@@ -1,15 +1,8 @@
-// import React, { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
 
-// const initialState = {
-//   name: '',
-//   number: '',
-// };
-
-export default function FormAddContact(onSubmit) {
-  // const [state, setState] = useState(initialState);
+export default function FormAddContact({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const options = { name: setName, number: setNumber };
@@ -18,19 +11,15 @@ export default function FormAddContact(onSubmit) {
   const numberId = nanoid();
 
   const handleChange = ({ target: { name, value } }) => {
-    console.log(name, value);
     options[name](value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(name, number);
-    setNumber(number);
-    setName(name);
-    onSubmit({ name, number });
 
-    // setNumber(number);
-    // setName(name);
+    onSubmit({ name, number });
+    setName('');
+    setNumber('');
   };
 
   return (

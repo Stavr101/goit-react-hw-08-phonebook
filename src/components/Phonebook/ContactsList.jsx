@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export default function ContactsList({ items, removeContact }) {
-  //   console.log(items);
+  // console.log(items);
   const elements = items.map(({ name, id, number }) => {
     return (
       <li key={id}>
