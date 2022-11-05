@@ -12,18 +12,8 @@ export default function Phonebook() {
   const contacts = useSelector(getFilteredContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-  // const [contacts, setContacts] = useState(() => {
-  //   const value = JSON.parse(localStorage.getItem('contacts'));
-  //   return value ?? [];
-  // });
-  // const [filter, setFilter] = useState('');
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
 
   const onAddContact = contact => {
-    console.log(contact);
     if (isDublicate(contact)) {
       return alert(
         `${contact.name} - ${contact.number} is already in contacts.`
@@ -31,29 +21,15 @@ export default function Phonebook() {
     }
     const action = addContact(contact);
     dispatch(action);
-
-    // setContacts(prev => {
-    //   const newContact = {
-    //     id: nanoid(),
-    //     ...contact,
-    //   };
-    //   return [...prev, newContact];
-    // });
   };
   const onRemoveContact = id => {
-    // setContacts(prev => {
-    //   const newContact = prev.filter(item => item.id !== id);
-    //   return newContact;
-    // });
     const action = removeContact(id);
     dispatch(action);
   };
 
   const handleChange = e => {
-    console.log(e.target);
     const { value } = e.target;
     dispatch(setFilter(value));
-    // setFilter(value);
   };
 
   const isDublicate = ({ name, number }) => {
@@ -62,25 +38,6 @@ export default function Phonebook() {
     );
     return result;
   };
-
-  // const getFilteredContacts = () => {
-  //   if (!filter) {
-  //     return contacts;
-  //   }
-
-  //   const normalaisedFilter = filter.toLocaleLowerCase();
-  //   const filteredContacts = contacts.filter(({ name, number }) => {
-  //     const normalaisedName = name.toLocaleLowerCase();
-  //     const normalaisedNumber = number.toLocaleLowerCase();
-  //     const result =
-  //       normalaisedName.includes(normalaisedFilter) ||
-  //       normalaisedNumber.includes(normalaisedFilter);
-  //     return result;
-  //   });
-  //   return filteredContacts;
-  // };
-
-  // const filteredContacts = getFilteredContacts();
 
   return (
     <div>
