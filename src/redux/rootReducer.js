@@ -1,11 +1,15 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-// import booksReducer from './books/books-reducer';
-// import filterReducer from './filter/filter-reducer';
+import { userContacts } from './contacts/userContactSlice';
+import { filterReducer } from './filters/filtersSlice';
 
-// const rootReducer = combineReducers({
-//   contacts: booksReducer,
+const rootReducer = combineReducers({
+  contacts: userContacts,
+  filter: filterReducer,
+});
+
+// const reducer = combineReducers({
+//   contacts: userContacts,
 //   filter: filterReducer,
 // });
-
-// export default rootReducer;
+export default rootReducer;

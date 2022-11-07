@@ -18,6 +18,7 @@ const userContactSlice = createSlice({
         };
       },
     },
+
     removeContact: (store, { payload }) =>
       store.filter(({ id }) => id !== payload),
   },
