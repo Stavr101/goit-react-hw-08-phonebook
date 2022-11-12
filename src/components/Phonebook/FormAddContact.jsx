@@ -1,32 +1,35 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { getFilteredContacts } from 'redux/contacts/useContactSelector';
-import { addContact } from 'redux/contacts/userContactSlice';
+import {
+  useAddContactsMutation,
+  useGetContactsQuery,
+} from 'redux/contactsApiSlice';
+import Loader from 'shared/loader/Loader';
 
 export const FormAddContact = () => {
-  const dispatch = useDispatch();
-  const items = useSelector(getFilteredContacts);
+  const { data } = useGetContactsQuery();
+  // console.log(data);
+  const [addContact, { isLoading }] = useAddContactsMutation();
 
-  const handleSubmit = event => {
+  const handleAddContacts = async event => {
     event.preventDefault();
     const form = event.currentTarget;
-    const { name, number } = form;
 
+    const { name, phone } = form;
     const contact = {
       name: name.value,
-      number: number.value,
+      phone: phone.value,
     };
 
-    items.find(
-      item => item.name === contact.name || item.number === contact.number
+    data.find(
+      data => data.name === contact.name || data.phone === contact.phone
     )
-      ? alert(`${contact.name} - ${contact.number} is already in contacts.`)
-      : dispatch(addContact(contact));
+      ? alert(`${contact.name} - ${contact.phone} is already in contacts.`)
+      : addContact(contact);
 
-    form.reset();
+    event.currentTarget.reset();
   };
 
   return (
-    <form onSubmit={handleSubmit} action="">
+    <form onSubmit={handleAddContacts}>
       <label htmlFor="name">
         Name
         <input
@@ -37,17 +40,20 @@ export const FormAddContact = () => {
           required
         />
       </label>
-      <label htmlFor="number">
-        Number
+      <label htmlFor="phone">
+        Phone
         <input
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
       </label>
-      <button>Add contact</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading && <Loader />}
+        Add contact
+      </button>
     </form>
   );
 };

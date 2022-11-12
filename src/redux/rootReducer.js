@@ -8,8 +8,4 @@ const rootReducer = combineReducers({
   filter: filterReducer,
 });
 
-// const reducer = combineReducers({
-//   contacts: userContacts,
-//   filter: filterReducer,
-// });
 export default rootReducer;

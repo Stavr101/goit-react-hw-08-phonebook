@@ -1,23 +1,34 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getFilteredContacts } from 'redux/contacts/useContactSelector';
-import { removeContact } from 'redux/contacts/userContactSlice';
+import {
+  useDeleteContactsMutation,
+  useGetContactsQuery,
+} from 'redux/contactsApiSlice';
 
 export const ContactsList = () => {
-  const contacts = useSelector(getFilteredContacts);
-  const dispatch = useDispatch();
+  const [deleteContact, result] = useDeleteContactsMutation();
+  const { data } = useGetContactsQuery();
+  const contacts = useSelector(state => getFilteredContacts(state, data));
 
   const onRemoveContact = id => {
-    const action = removeContact(id);
-    dispatch(action);
+    deleteContact(id);
   };
+  if (data) {
+    const elements = contacts.map(({ name, id, phone }) => {
+      return (
+        <li key={id}>
+          {name}: {phone}
+          <button
+            type="button"
+            onClick={() => onRemoveContact(id)}
+            disabled={result.isLoading}
+          >
+            Delete
+          </button>
+        </li>
+      );
+    });
 
-  const elements = contacts.map(({ name, id, number }) => {
-    return (
-      <li key={id}>
-        {name}: {number}
-        <button onClick={() => onRemoveContact(id)}>Delete</button>
-      </li>
-    );
-  });
-  return <ul>{elements}</ul>;
+    return <ul>{elements}</ul>;
+  }
 };

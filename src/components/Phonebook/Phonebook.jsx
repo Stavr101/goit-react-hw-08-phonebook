@@ -1,6 +1,6 @@
 import { FormAddContact } from './FormAddContact';
 import { ContactsList } from './ContactsList';
-import Filter from './Filter';
+import { Filter } from './Filter';
 
 export default function Phonebook() {
   return (
