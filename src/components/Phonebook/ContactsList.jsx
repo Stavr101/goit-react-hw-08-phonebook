@@ -18,9 +18,9 @@ export const ContactsList = () => {
   const onRemoveContact = id => {
     dispatch(deleteContact(id));
   };
-  const onRenameContact = id => {
-    dispatch(patchContact(id));
-  };
+  // const onRenameContact = id => {
+  //   dispatch(patchContact(id));
+  // };
   if (contacts) {
     const elements = contacts.map(({ name, id, number }) => {
       return (
