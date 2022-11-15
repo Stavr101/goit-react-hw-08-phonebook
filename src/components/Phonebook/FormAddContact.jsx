@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/task/operations';
-import { selectAllContacts, selectLoading } from 'redux/task/selectors';
+import { addContact } from 'redux/contacts/operations';
+import { selectAllContacts, selectLoading } from 'redux/contacts/selectors';
 import Loader from 'shared/loader/Loader';
 import style from './FormContact.module.css';
 
 export const FormAddContact = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectAllContacts);
-  // console.log('items:', items);
   const isLoading = useSelector(selectLoading);
-  // console.log('isLoading:', isLoading);
 
   const handleAddContacts = async event => {
     event.preventDefault();
@@ -20,13 +18,7 @@ export const FormAddContact = () => {
       name: name.value,
       number: number.value,
     };
-    console.log('contact :', contact);
-    // if (text !== '') {
-    //   dispatch(addContact(contact));
-    //   form.reset();
-    //   return;
-    // }
-    // alert('Task cannot be empty. Enter some text!');
+
     items.find(
       item => item.name === contact.name || item.phone === contact.number
     )

@@ -4,8 +4,11 @@ import {
   selectAllContacts,
   selectFilter,
   selectLoading,
-} from 'redux/task/selectors';
-import { deleteContact, patchContact } from 'redux/task/operations';
+} from 'redux/contacts/selectors';
+import {
+  deleteContact,
+  // patchContact
+} from 'redux/contacts/operations';
 import style from './ContactList.module.css';
 
 export const ContactsList = () => {
