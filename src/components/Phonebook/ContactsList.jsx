@@ -10,15 +10,10 @@ import style from './ContactList.module.css';
 
 export const ContactsList = () => {
   const items = useSelector(selectAllContacts);
-  console.log('items contactlist:', items);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
-
-  const data = useSelector(selectFilter);
-  const contacts = useSelector(state => getFilteredContacts(items));
-
-  // const contacts = useSelector(state => getFilteredContacts(state));
-  // console.log('contacts contactlist:', contacts);
+  const contacts = useSelector(state => getFilteredContacts(items, filter));
 
   const onRemoveContact = id => {
     dispatch(deleteContact(id));
