@@ -1,34 +1,58 @@
-import { useSelector } from 'react-redux';
-import { getFilteredContacts } from 'redux/contacts/useContactSelector';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  useDeleteContactsMutation,
-  useGetContactsQuery,
-} from 'redux/contactsApiSlice';
+  getFilteredContacts,
+  selectAllContacts,
+  selectFilter,
+  selectLoading,
+} from 'redux/task/selectors';
+import { deleteContact, patchContact } from 'redux/task/operations';
+import style from './ContactList.module.css';
 
 export const ContactsList = () => {
-  const [deleteContact, result] = useDeleteContactsMutation();
-  const { data } = useGetContactsQuery();
-  const contacts = useSelector(state => getFilteredContacts(state, data));
+  const items = useSelector(selectAllContacts);
+  console.log('items contactlist:', items);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectLoading);
+
+  const data = useSelector(selectFilter);
+  const contacts = useSelector(state => getFilteredContacts(items));
+
+  // const contacts = useSelector(state => getFilteredContacts(state));
+  // console.log('contacts contactlist:', contacts);
 
   const onRemoveContact = id => {
-    deleteContact(id);
+    dispatch(deleteContact(id));
   };
-  if (data) {
-    const elements = contacts.map(({ name, id, phone }) => {
+  const onRenameContact = id => {
+    dispatch(patchContact(id));
+  };
+  if (contacts) {
+    const elements = contacts.map(({ name, id, number }) => {
       return (
-        <li key={id}>
-          {name}: {phone}
+        <li className={style.ContactList__item} key={id}>
+          <span className={style.ContactList__text}>
+            {name}: {number}
+          </span>
           <button
+            className={style.ContactList__button}
             type="button"
             onClick={() => onRemoveContact(id)}
-            disabled={result.isLoading}
+            disabled={isLoading}
           >
             Delete
           </button>
+          {/* <button
+            className={style.ContactList__button}
+            type="button"
+            onClick={() => onRenameContact(id)}
+            disabled={isLoading}
+          >
+            Rename
+          </button> */}
         </li>
       );
     });
 
-    return <ul>{elements}</ul>;
+    return <ul className={style.ContactList__list}>{elements}</ul>;
   }
 };

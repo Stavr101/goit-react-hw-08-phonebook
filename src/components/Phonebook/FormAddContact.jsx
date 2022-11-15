@@ -1,38 +1,47 @@
-import {
-  useAddContactsMutation,
-  useGetContactsQuery,
-} from 'redux/contactsApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/task/operations';
+import { selectAllContacts, selectLoading } from 'redux/task/selectors';
 import Loader from 'shared/loader/Loader';
+import style from './FormContact.module.css';
 
 export const FormAddContact = () => {
-  const { data } = useGetContactsQuery();
-  // console.log(data);
-  const [addContact, { isLoading }] = useAddContactsMutation();
+  const dispatch = useDispatch();
+  const items = useSelector(selectAllContacts);
+  // console.log('items:', items);
+  const isLoading = useSelector(selectLoading);
+  // console.log('isLoading:', isLoading);
 
   const handleAddContacts = async event => {
     event.preventDefault();
     const form = event.currentTarget;
 
-    const { name, phone } = form;
+    const { name, number } = form;
     const contact = {
       name: name.value,
-      phone: phone.value,
+      number: number.value,
     };
-
-    data.find(
-      data => data.name === contact.name || data.phone === contact.phone
+    console.log('contact :', contact);
+    // if (text !== '') {
+    //   dispatch(addContact(contact));
+    //   form.reset();
+    //   return;
+    // }
+    // alert('Task cannot be empty. Enter some text!');
+    items.find(
+      item => item.name === contact.name || item.phone === contact.number
     )
-      ? alert(`${contact.name} - ${contact.phone} is already in contacts.`)
-      : addContact(contact);
+      ? alert(`${contact.name} - ${contact.number} is already in contacts.`)
+      : dispatch(addContact(contact));
 
     event.currentTarget.reset();
   };
 
   return (
-    <form onSubmit={handleAddContacts}>
+    <form className={style.FormInput} onSubmit={handleAddContacts}>
       <label htmlFor="name">
         Name
         <input
+          className={style.FormInput__input}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -41,16 +50,17 @@ export const FormAddContact = () => {
         />
       </label>
       <label htmlFor="phone">
-        Phone
+        Number
         <input
+          className={style.FormInput__input}
           type="tel"
-          name="phone"
+          name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
       </label>
-      <button type="submit" disabled={isLoading}>
+      <button className={style.FormButton} type="submit" disabled={isLoading}>
         {isLoading && <Loader />}
         Add contact
       </button>
